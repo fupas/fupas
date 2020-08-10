@@ -1,0 +1,29 @@
+- name: stop ghost
+  become: true
+  shell: docker stop ghost-{{ uid }}
+  ignore_errors: True
+
+- name: remove ghost
+  become: true
+  shell: docker rm ghost-{{ uid }}
+  ignore_errors: True
+
+- name: pull image
+  become: true
+  shell: docker pull {{ ghost_image }}:{{ ghost_version }}
+  
+- name: create ghost image
+  become: true
+  shell: >
+        docker create --name ghost-{{ uid }} \
+        --restart always \
+        --network n_{{ inventory_hostname }} \
+        -p {{ ghost_external_port }}:{{ ghost_port }} \
+        -v /opt/data/{{ uid }}:/var/lib/ghost/content \
+        -e url=http://{{ hostname }} \
+        -e mail__from={{ mail_from }}
+        {{ ghost_image }}:{{ ghost_version }}
+        
+- name: start ghost
+  become: true
+  shell: docker start ghost-{{ uid }}

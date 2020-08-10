@@ -1,0 +1,4 @@
+- name: prepare the vm
+  hosts: servers
+  roles:
+    - role: ../roles/create_ghost

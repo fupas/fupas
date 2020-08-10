@@ -1,0 +1,28 @@
+- name: stop ingress router
+  become: true
+  shell: docker stop ingress
+  ignore_errors: True
+
+- name: remove ingress router
+  become: true
+  shell: docker rm ingress
+  ignore_errors: True
+
+- name: pull container image
+  become: true
+  shell: docker pull {{ ingress_image }}:{{ ingress_version }}
+
+- name: create container image
+  become: true
+  shell: >
+    docker create --name ingress \
+    --restart always \
+    --network n_{{ inventory_hostname }} \
+    -v /opt/config:/config \
+    -v /opt/data:/data \
+    -p 80:80 -p 443:443 \
+    {{ ingress_image }}:{{ ingress_version }}
+
+- name: start ingress router
+  become: true
+  shell: docker start ingress
