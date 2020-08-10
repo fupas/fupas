@@ -1,0 +1,5 @@
+- name: prepare the vm
+  hosts: servers
+  roles:
+    - role: ../roles/prepare_vm
+
