@@ -1,11 +1,11 @@
 - name: stop ingress router
   become: true
-  shell: docker stop ingress
+  shell: docker stop ingrsvc
   ignore_errors: True
 
 - name: remove ingress router
   become: true
-  shell: docker rm ingress
+  shell: docker rm ingrsvc
   ignore_errors: True
 
 - name: pull container image
@@ -15,7 +15,7 @@
 - name: create container image
   become: true
   shell: >
-    docker create --name ingress \
+    docker create --name ingrsvc \
     --restart always \
     --network n_{{ inventory_hostname }} \
     -v /opt/config:/config \
@@ -25,4 +25,4 @@
 
 - name: start ingress router
   become: true
-  shell: docker start ingress
+  shell: docker start ingrsvc

@@ -1,4 +1,4 @@
-- name: prepare the vm
+- name: hacks
   hosts: servers
   roles:
-    - role: ../roles/create_ghost
+    - role: ../roles/create_ingress
