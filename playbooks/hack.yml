@@ -1,4 +1,0 @@
-- name: hacks
-  hosts: servers
-  roles:
-    - role: ../roles/create_ingress
