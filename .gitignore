@@ -2,6 +2,7 @@
 stuff.md
 inventory*
 hack/*
+fupas-*.json
 
 *.gem
 *.rbc
