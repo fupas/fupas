@@ -9,7 +9,7 @@ ConditionFileNotEmpty=/opt/config/consul/consul.hcl
 Type=exec
 User=fupa
 Group=fupa
-ExecStart=/usr/bin/consul agent -bind=0.0.0.0 -bootstrap-expect={{ consul_server_count }} -config-dir=/opt/config/consul
+ExecStart=/usr/bin/consul agent -bind=0.0.0.0 -bootstrap-expect={{ consul_server_count }} -enable-local-script-checks -config-dir=/opt/config/consul
 ExecReload=/usr/bin/consul reload
 ExecStop=/usr/bin/consul leave
 KillMode=process
