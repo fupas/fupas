@@ -13,6 +13,7 @@
   vars:
     packages:
       - yum-utils
+      - bind-utils
       - ufw
       - fail2ban
 

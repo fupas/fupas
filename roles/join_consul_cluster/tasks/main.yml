@@ -1,0 +1,3 @@
+
+- name: join the consul cluster
+  shell: consul join {{ consul_server_ip }}

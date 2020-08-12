@@ -4,18 +4,3 @@
   yum:
     name: "epel-release"
     state: present
-
-- name: install docker
-  become: yes
-  shell: >
-        dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
-
-        dnf install docker-ce --nobest -y
-
-        systemctl enable docker
-
-        systemctl start docker
-
-- name: docker network
-  become: yes
-  shell: docker network create n_{{ inventory_hostname }}

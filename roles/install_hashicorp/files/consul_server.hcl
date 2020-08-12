@@ -4,4 +4,6 @@
   "log_level": "INFO",
   "node_name": "{{ cname }}",
   "server": true,
+  "bootstrap": true,
+  "ui": true,
 }
