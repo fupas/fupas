@@ -12,6 +12,7 @@
     state: present
   vars:
     packages:
+      - yum-utils
       - ufw
       - fail2ban
 

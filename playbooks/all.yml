@@ -1,5 +1,6 @@
 - name: prepare the vm
-  hosts: servers
+  hosts: all
+  
   roles:
     - role: ../roles/prepare_vm
-
+    - role: ../roles/install_podman
