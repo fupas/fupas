@@ -1,13 +1,31 @@
 all:
   hosts:
-    mail.example.com:
+    srv1.example.com:
+    srv2.example.com:
+    srv3.example.com:
+    c1.example.com:
+  
+  vars:
+    fupas_user: fupa
+    # network configuration
+    vpc: 10.1.0.0/16
+    vpc_if: ens10
+    vpc_name: fupas
+    # consul
+    consul_server_count: 3
+    consul_server_ip: 10.1.0.3
+
+    # ansible configuration
+    ansible_user: fupa
+    ansible_ssh_private_key_file: ~/.ssh/id_rsa
+   
   children:
-    webservers:
+    control_plane:
       hosts:
-        foo.example.com:
-        bar.example.com:
-    dbservers:
+        srv1.example.com:
+        srv2.example.com:
+        srv3.example.com:
+        
+    nodes:
       hosts:
-        one.example.com:
-        two.example.com:
-        three.example.com:
+        c1.example.com:
