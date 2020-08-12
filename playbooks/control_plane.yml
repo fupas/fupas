@@ -6,3 +6,5 @@
   
   roles:
     - role: ../roles/install_hashicorp
+    - role: ../roles/config_consul
+    - role: ../roles/join_consul_cluster

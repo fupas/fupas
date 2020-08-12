@@ -5,5 +5,4 @@
   "node_name": "{{ cname }}",
   "server": true,
   "bootstrap": true,
-  "ui": true,
 }
