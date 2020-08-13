@@ -1,25 +1,14 @@
-- name: stop ingrsvc.service
+- name: stop router.service
   become: true
-  shell: systemctl stop ingrsvc
-  ignore_errors: yes
-
-- name: remove container image
-  become: true
-  shell: podman rm ingrsvc
+  shell: systemctl stop router
   ignore_errors: yes
 
 - name: pull container image
-  shell: podman pull {{ ingrsvc_image }}:{{ ingrsvc_version }}
-
-- name: create container image
-  become: true
+  become: yes
   shell: >
-    podman create --name ingrsvc \
-    -v /opt/config:/config \
-    -v /opt/data:/data \
-    -p 80:80 \
-    -p 443:443 \
-    {{ ingrsvc_image }}:{{ ingrsvc_version }}
+        curl -fsSL https://storage.googleapis.com/fupas-bin/router > /usr/bin/router
+
+        chmod +x /usr/bin/router
 
 - name: create config and data location
   become: true
@@ -33,19 +22,19 @@
     - /opt/data/caddy
     - /opt/data/public
 
-- name: create ingrsvc.service
+- name: create router.service
   template:
-    src: ../files/ingrsvc.service
-    dest: /opt/config/caddy/ingrsvc.service
+    src: ../files/router.service
+    dest: /opt/config/caddy/router.service
     owner: "{{ fupas_user }}"
     group: "{{ fupas_user }}"
     mode: '644'
 
-- name: link ingrsvc.service
+- name: link router.service
   become: true
   file:
-    src: /opt/config/caddy/ingrsvc.service
-    dest: /etc/systemd/system/ingrsvc.service
+    src: /opt/config/caddy/router.service
+    dest: /etc/systemd/system/router.service
     state: link
 
 - name: create a default Caddyfile
@@ -66,13 +55,13 @@
     mode: '644'
     force: no
 
-- name: enable ingrsvc.service
+- name: enable router.service
   become: true
   shell: >
         systemctl daemon-reload
 
-        systemctl enable ingrsvc
+        systemctl enable router
 #
-#        systemctl restart ingrsvc
+#        systemctl restart router
 
 
