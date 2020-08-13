@@ -12,8 +12,10 @@ all:
     vpc_if: ens10
     vpc_name: fupas
     # consul
-    consul_server_count: 3
-    consul_server_ip: 10.1.0.3
+    consul_server_count: 1
+    consul_server_ip: 10.1.0.2
+    consul_server_extra_params: "-bind=0.0.0.0 -bootstrap-expect=1 -retry-join '10.1.0.2' -enable-local-script-checks"
+    consul_client_extra_params: "-retry-join '10.1.0.2'"
 
     # ansible configuration
     ansible_user: fupa

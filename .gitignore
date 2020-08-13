@@ -1,6 +1,8 @@
 # changes
 stuff.md
+inventory/
 inventory*
+inventory.*
 hack/*
 fupas-*.json
 
