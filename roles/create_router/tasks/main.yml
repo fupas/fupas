@@ -1,0 +1,78 @@
+- name: stop ingrsvc.service
+  become: true
+  shell: systemctl stop ingrsvc
+  ignore_errors: yes
+
+- name: remove container image
+  become: true
+  shell: podman rm ingrsvc
+  ignore_errors: yes
+
+- name: pull container image
+  shell: podman pull {{ ingrsvc_image }}:{{ ingrsvc_version }}
+
+- name: create container image
+  become: true
+  shell: >
+    podman create --name ingrsvc \
+    -v /opt/config:/config \
+    -v /opt/data:/data \
+    -p 80:80 \
+    -p 443:443 \
+    {{ ingrsvc_image }}:{{ ingrsvc_version }}
+
+- name: create config and data location
+  become: true
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ fupas_user }}"
+    group: "{{ fupas_user }}"
+  with_list:
+    - /opt/config/caddy
+    - /opt/data/caddy
+    - /opt/data/public
+
+- name: create ingrsvc.service
+  template:
+    src: ../files/ingrsvc.service
+    dest: /opt/config/caddy/ingrsvc.service
+    owner: "{{ fupas_user }}"
+    group: "{{ fupas_user }}"
+    mode: '644'
+
+- name: link ingrsvc.service
+  become: true
+  file:
+    src: /opt/config/caddy/ingrsvc.service
+    dest: /etc/systemd/system/ingrsvc.service
+    state: link
+
+- name: create a default Caddyfile
+  template:
+    src: ../files/Caddyfile
+    dest: /opt/config/caddy/Caddyfile
+    owner: "{{ fupas_user }}"
+    group: "{{ fupas_user }}"
+    mode: '644'
+    force: no
+
+- name: create a default static site
+  template:
+    src: ../files/index.html
+    dest: /opt/data/public/index.html
+    owner: "{{ fupas_user }}"
+    group: "{{ fupas_user }}"
+    mode: '644'
+    force: no
+
+- name: enable ingrsvc.service
+  become: true
+  shell: >
+        systemctl daemon-reload
+
+        systemctl enable ingrsvc
+#
+#        systemctl restart ingrsvc
+
+

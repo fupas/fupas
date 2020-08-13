@@ -3,7 +3,6 @@
   
   roles:
     - role: ../roles/prepare_vm
-    - role: ../roles/install_podman
 
 - name: prepare the control_plane
   hosts: control_plane
@@ -13,3 +12,4 @@
   roles:
     - role: ../roles/install_hashicorp
     - role: ../roles/config_consul
+    - role: ../roles/create_router

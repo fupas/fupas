@@ -10,9 +10,9 @@
     state: present
   vars:
     packages:
-      - nomad
       - consul
-
+#      - nomad
+      
 - name: create config and data location
   become: true
   file:
@@ -22,6 +22,6 @@
     group: "{{ fupas_user }}"
   with_list:
     - /opt/config/consul
-    - /opt/config/nomad
     - /opt/data/consul
-    - /opt/data/nomad
+#    - /opt/data/nomad
+#    - /opt/config/nomad

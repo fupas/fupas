@@ -3,7 +3,7 @@ stuff.md
 inventory/
 inventory*
 inventory.*
-hack/*
+hacks/*
 fupas-*.json
 
 *.gem

@@ -1,15 +1,14 @@
 
-#- name: install epel
-#  become: true
-#  yum:
-#    name: "epel-release"
-#    state: present
+- name: install epel
+  become: true
+  yum:
+    name: "epel-release"
+    state: present
 
 - name: install additional packages
   become: true
   yum:
     name: "{{ packages }}"
-    enablerepo: 'epel-release'
     state: present
   vars:
     packages:
@@ -17,6 +16,7 @@
       - bind-utils
       - ufw
       - fail2ban
+      - podman
 
 - name: enable fail2ban
   become: true
@@ -32,7 +32,7 @@
 
         ufw default allow outgoing
 
-        ufw allow from {{ vpc }}
+        ufw allow from {{ subnet }}
 
         ufw allow ssh
 

@@ -3,4 +3,4 @@
   
   roles:
     - role: ../roles/prepare_vm
-    - role: ../roles/install_podman
+

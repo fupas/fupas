@@ -52,7 +52,7 @@
     group: "{{ fupas_user }}"
     mode: '644'
   
-- name: consul.service link
+- name: link consul.service
   become: true
   file:
     src: /opt/config/consul/consul.service

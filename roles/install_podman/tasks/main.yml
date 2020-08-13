@@ -1,7 +1,0 @@
-
-- name: install podman
-  become: yes
-  dnf:
-    name: podman
-    state: present
-

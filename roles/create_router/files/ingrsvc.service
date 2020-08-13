@@ -1,0 +1,14 @@
+[Unit]
+Description=ingrsvc container
+Wants=syslog.service
+[Service]
+Type=forking
+User=root
+Group=root
+Restart=on-failure
+KillMode=none
+ExecStart=/usr/bin/podman start -a ingrsvc
+ExecStop=/usr/bin/podman stop -t 10 ingrsvc
+PIDFile=/opt/config/caddy/ingrsvc.pid
+[Install]
+WantedBy=multi-user.target
