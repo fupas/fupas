@@ -16,7 +16,6 @@
       - bind-utils
       - ufw
       - fail2ban
-      - podman
 
 - name: enable fail2ban
   become: true
@@ -32,8 +31,6 @@
 
         ufw default allow outgoing
 
-        ufw allow from {{ subnet }}
-
         ufw allow ssh
 
         ufw allow 80/tcp
@@ -45,3 +42,18 @@
         ufw allow 53/udp
 
         ufw --force enable
+
+- name: install docker
+  become: true
+  shell: >
+        yum install -y yum-utils
+
+        yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+        yum install -y docker-ce docker-ce-cli containerd.io
+
+        systemctl enable docker
+
+        systemctl start docker
+
+        docker network create n_{{ inventory_hostname }}

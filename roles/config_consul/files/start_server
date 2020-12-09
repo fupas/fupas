@@ -1,3 +1,0 @@
-#!/bin/bash
-
-/usr/bin/consul agent {{ consul_server_extra_params }} -config-dir=/opt/config/consul

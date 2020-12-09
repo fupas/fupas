@@ -1,18 +1,27 @@
-- name: stop ghost
-  become: true
-  shell: docker stop ghost-{{ uid }}
-  ignore_errors: True
-
-- name: remove ghost
-  become: true
-  shell: docker rm ghost-{{ uid }}
-  ignore_errors: True
 
 - name: pull image
   become: true
   shell: docker pull {{ ghost_image }}:{{ ghost_version }}
   
-- name: create ghost image
+- name: create config and data location
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ fupas_user }}"
+    group: "{{ fupas_user }}"
+  with_list:
+    - /opt/data/{{ uid }}
+
+- name: create a default Caddyfile
+  template:
+    src: ../files/Caddyfile
+    dest: /opt/config/caddy/Caddyfile
+    owner: "{{ fupas_user }}"
+    group: "{{ fupas_user }}"
+    mode: '644'
+    force: yes
+
+- name: create ghost container
   become: true
   shell: >
         docker create --name ghost-{{ uid }} \
@@ -27,3 +36,7 @@
 - name: start ghost
   become: true
   shell: docker start ghost-{{ uid }}
+
+- name: start the router
+  become: true
+  shell: docker start router

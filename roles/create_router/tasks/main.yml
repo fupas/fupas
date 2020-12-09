@@ -1,14 +1,3 @@
-- name: stop router.service
-  become: true
-  shell: systemctl stop router
-  ignore_errors: yes
-
-- name: pull container image
-  become: yes
-  shell: >
-        curl -fsSL https://storage.googleapis.com/fupas-bin/router > /usr/bin/router
-
-        chmod +x /usr/bin/router
 
 - name: create config and data location
   become: true
@@ -21,21 +10,6 @@
     - /opt/config/caddy
     - /opt/data/caddy
     - /opt/data/public
-
-- name: create router.service
-  template:
-    src: ../files/router.service
-    dest: /opt/config/caddy/router.service
-    owner: "{{ fupas_user }}"
-    group: "{{ fupas_user }}"
-    mode: '644'
-
-- name: link router.service
-  become: true
-  file:
-    src: /opt/config/caddy/router.service
-    dest: /etc/systemd/system/router.service
-    state: link
 
 - name: create a default Caddyfile
   template:
@@ -55,13 +29,11 @@
     mode: '644'
     force: no
 
-- name: enable router.service
+- name: create router container
   become: true
   shell: >
-        systemctl daemon-reload
-
-        systemctl enable router
-#
-#        systemctl restart router
-
-
+        docker create --name router --restart always \
+        --network n_{{ inventory_hostname }} \
+        -v /opt/config:/config -v /opt/data:/data \
+        -p 80:80 -p 443:443 \
+        eu.gcr.io/fupas-cr/router:1.0.0

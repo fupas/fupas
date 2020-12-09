@@ -1,9 +1,0 @@
-- name: prepare the control_plane
-  hosts: control_plane
-  pre_tasks:
-    - set_fact:
-        cname: "{{ inventory_hostname.split('.')[0] }}"
-  
-  roles:
-    - role: ../roles/install_hashicorp
-    - role: ../roles/config_consul
