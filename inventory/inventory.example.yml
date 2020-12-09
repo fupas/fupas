@@ -1,37 +1,25 @@
 all:
   hosts:
-    srv1.example.com:
-    srv2.example.com:
-    srv3.example.com:
-    c1.example.com:
+    blog.example.com:
   
   vars:
     # generic infrastructure setting
-    fupas_user: fupa
-    dc_name: fupas
-    # network configuration
-    subnet: 10.1.0.0/16
-    podman_subnet: 10.88.0.0/16
-    # consul
-    consul_server_count: 1
-    consul_server_ip: 10.1.0.2
-    consul_server_extra_params: "-bind=0.0.0.0 -bootstrap-expect=1 -retry-join '10.1.0.2' -enable-local-script-checks"
-    consul_client_extra_params: "-retry-join '10.1.0.2'"
-    # container images
-    ingrsvc_image: eu.gcr.io/fupas-cr/ingrsvc
-    ingrsvc_version: latest
-    
+    fupas_user: root
+       
     # ansible configuration
-    ansible_user: fupa
+    ansible_user: root
     ansible_ssh_private_key_file: ~/.ssh/id_rsa
-   
-  children:
-    control_plane:
-      hosts:
-        srv1.example.com:
-        srv2.example.com:
-        srv3.example.com:
-        
-    nodes:
-      hosts:
-        c1.example.com:
+  
+    # container images
+    router_image: eu.gcr.io/fupas-cr/router
+    router_version: 1.0.0
+    ghost_image: ghost
+    ghost_version: 3.39.2
+    ghost_port: 2368
+
+    # ghost instance setup
+    uid: blog
+    hostname: 'blog.example.com'
+    mail_from: 'hello@example.com'
+    ghost_external_port: 3002
+    

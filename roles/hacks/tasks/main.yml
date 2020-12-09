@@ -1,7 +1,0 @@
-- name: get consul IPs
-  shell: ip addr show ens10 | awk '$1 == "inet" {gsub(/\/.*$/, "", $2); print $2}'
-  register: ip
-
-- name: printtheip
-  debug:
-    msg: "{{ ip.stdout }}"

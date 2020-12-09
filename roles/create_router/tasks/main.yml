@@ -11,7 +11,7 @@
     - /opt/data/caddy
     - /opt/data/public
 
-- name: create a default Caddyfile
+- name: create a default configuration
   template:
     src: ../files/Caddyfile
     dest: /opt/config/caddy/Caddyfile
@@ -36,4 +36,5 @@
         --network n_{{ inventory_hostname }} \
         -v /opt/config:/config -v /opt/data:/data \
         -p 80:80 -p 443:443 \
-        eu.gcr.io/fupas-cr/router:1.0.0
+        {{ router_image }}:{{ router_version }}
+

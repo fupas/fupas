@@ -1,9 +1,0 @@
-- name: prepare the node
-  hosts: all
-  
-  roles:
-    - role: ../roles/prepare_node
-    - role: ../roles/create_router
-    - role: ../roles/create_ghost
-
-

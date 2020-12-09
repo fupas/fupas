@@ -1,0 +1,8 @@
+        
+- name: start the ghost instance
+  become: true
+  shell: docker start ghost-{{ uid }}
+
+- name: start the router
+  become: true
+  shell: docker start router

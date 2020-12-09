@@ -1,0 +1,10 @@
+- name: create a simpe ghost instance
+  hosts: all
+  
+  roles:
+    - role: ../roles/prepare
+    - role: ../roles/create_router
+    - role: ../roles/create_ghost
+    - role: ../roles/activate
+
+

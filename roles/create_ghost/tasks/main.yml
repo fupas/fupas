@@ -12,15 +12,6 @@
   with_list:
     - /opt/data/{{ uid }}
 
-- name: create a default Caddyfile
-  template:
-    src: ../files/Caddyfile
-    dest: /opt/config/caddy/Caddyfile
-    owner: "{{ fupas_user }}"
-    group: "{{ fupas_user }}"
-    mode: '644'
-    force: yes
-
 - name: create ghost container
   become: true
   shell: >
@@ -32,11 +23,3 @@
         -e url=http://{{ hostname }} \
         -e mail__from={{ mail_from }}
         {{ ghost_image }}:{{ ghost_version }}
-        
-- name: start ghost
-  become: true
-  shell: docker start ghost-{{ uid }}
-
-- name: start the router
-  become: true
-  shell: docker start router
